@@ -37,10 +37,10 @@ Note: demo.cpp just demos this issue, it doesn't make any real sense, some of th
 
 The other files are:
 * reset.c - this provides the main entry point and most importantly calls __libc_init_array.
-* syscalls.c - this provides the function like _kill that are called by _kill_r etc. in libc.
+* syscalls.c - this provides the functions like _kill that are called by _kill_r etc. in libc.
 * RBL_nRF51822.ld - this is the short linker script for the system I'm using (a RBL BLE Nano).
 
-I cut everything down to a minumum but don't know enough about linker scripts - so it's the unchanged original.
+I cut everything down to a minimum but don't know enough about linker scripts - so it's the unchanged original.
 
 If I use the 4.8.3 arm-none-eabi-g++ that comes with the 1.6.4 Arduino IDE the .text size is 652 when no pure virtual is used and 69524 when one is.
 If I use 4.9.3 from Terry Guo's PPA then the corresponding sizes are 668 and 80792 respectively.
