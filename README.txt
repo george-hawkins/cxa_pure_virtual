@@ -27,11 +27,22 @@ The following shows cloning the repo and building first with PURE_VIRTUAL unset 
 $ git clone git@github.com:george-hawkins/cxa_pure_virtual.git
 $ cd cxa_pure_virtual
 $ ./BUILD
-668
+360
 $ ./BUILD --pure
-80792
+47132
+$ ./BUILD --pure-stubbed
+3096
 
-As you can see the size output changes from 668 bytes to 80792.
+The final BUILD call above shows using a pure virtual but with __cxa_pure_virtual stubbed to be:
+
+extern "C" void __cxa_pure_virtual() {
+    puts("__cxa_pure_virtual() called - see https://goo.gl/YJXrK3");
+    abort();
+}
+
+As you can see the size output grows from 524 to 47132 when a pure virtual is used and then shrinks back down to 3096 if a lighter weight __cxa_pure_virtual is used.
+
+If I remove the "puts" line from the __cxa_pure_virtual function the size reduces down to just 524.
 
 Note: demo.cpp just demos this issue, it doesn't make any real sense, some of the code is there just to make sure things don't get optimized away.
 
@@ -42,8 +53,11 @@ The other files are:
 
 I cut everything down to a minimum but don't know enough about linker scripts - so it's the unchanged original.
 
-If I use the 4.8.3 arm-none-eabi-g++ that comes with the 1.6.4 Arduino IDE the .text size is 652 when no pure virtual is used and 69524 when one is.
-If I use 4.9.3 from Terry Guo's PPA then the corresponding sizes are 668 and 80792 respectively.
+The above byte values, i.e. 524, 47132, 3096 and 524 were generated when using the 4.9.3 arm-none-eabi-g++ from Terry Guo's PPA.
+
+If I use 4.8.3 that comes with the 1.6.4 Arduino IDE the corresponding sizes are 368, 35532, 3048 and 540 respectively.
+
+I.e. things have gotten bigger between 4.8.3 and 4.9.3.
 
 Thanks,
 

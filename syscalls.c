@@ -1,6 +1,15 @@
+#include <stdlib.h>
+
 #include "syscalls.h"
 
 extern int  _end ;
+
+#ifdef CXA_PURE_VIRTUAL
+extern "C" void __cxa_pure_virtual() {
+    puts("__cxa_pure_virtual() called - see https://goo.gl/YJXrK3");
+    abort();
+}
+#endif
 
 extern caddr_t _sbrk ( int incr )
 {

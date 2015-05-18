@@ -3,6 +3,9 @@
 if [ "$1" == "--pure" ]
 then
     VIRTUAL_DEF='-DPURE_VIRTUAL'
+elif [ "$1" == "--pure-stubbed" ]
+then
+    VIRTUAL_DEF='-DPURE_VIRTUAL -DCXA_PURE_VIRTUAL'
 fi
 
 mkdir -p build
@@ -37,6 +40,7 @@ arm-none-eabi-g++ \
     -mcpu=cortex-m0 \
     -mthumb \
     -T../RBL_nRF51822.ld \
+    --specs=nano.specs \
     -Wl,-Map,demo.map \
     -o demo.elf \
     -lm \
